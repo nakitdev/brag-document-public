@@ -108,7 +108,13 @@
 - แจ้งทีมล่วงหน้าว่าไปเวิร์กช็อปทั้งวัน และส่ง standup (รวม 1 ครั้ง)
 
 **ได้เรียนรู้**
-- -
+- เวิร์กช็อปวันที่ 1 "อยู่รอดในโลกที่เป็นศัตรู"
+  - CRUD ง่ายๆ พังได้ 10 แบบ: validation, idempotency, timeout, unknown outcome, lost update, partial failure, observability, noisy neighbour, graceful shutdown, mass assignment
+  - 500 ต้องแปลว่า "เราผิด": expected error เป็น 4xx · ห้ามกลืน error หรือคืน null แทน error
+  - ทุก network call ต้องมี timeout · ช้าแย่กว่าตาย · timeout → retry (idempotent, backoff+jitter) → circuit breaker → fallback · bulkhead
+  - Node: งาน CPU บล็อก event loop รวม health check · วัด event loop lag
+  - Kubernetes: liveness ห้ามเช็ค dependency · graceful shutdown · OOMKilled และ heap limit
+  - observability: metrics / traces / logs เชื่อมด้วย trace ID · RED/USE · p99 · SLO
 
 ### 2026-11-10 (อังคาร)
 
@@ -122,7 +128,13 @@
 - -
 
 **ได้เรียนรู้**
-- -
+- เวิร์กช็อปวันที่ 2 "ระบบมีรูปร่างที่ถูกไหม"
+  - fact เกิดครั้งเดียว เก็บครั้งเดียว · ทุก hop ถาม: หาย, ซ้ำ, สลับลำดับ, ลงครึ่งเดียว · transaction เดียวกันกันให้ฟรี
+  - การ์ดตัดสินใจ: problem → move → price → paying the price
+  - ระบบโตเป็น stage: แยก DB → stateless หลาย instance → Kubernetes → cache/replica → queue → module/service ตาม domain → shard → cells → หลาย region
+  - CAP/PACELC และเลือก consistency ต่อหน้าจอ
+  - ปัญหา 17 แบบ: idempotent consumer, outbox, versioning, dead-letter, lease + fencing token, webhook ack ก่อน process, contract compatibility, saga, batch job, async job, limit ต่อ tenant, cache stampede, connection pool, keyset pagination, token bucket
+  - modular monolith ก่อน microservices · distributed monolith คือ anti-pattern
 
 ### 2026-11-11 (พุธ)
 
